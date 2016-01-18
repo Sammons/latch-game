@@ -28,4 +28,4 @@
 
 ###This code is open and free, use it at your own risk.
 
-###This is the first (unstable and dirty) rendition of Latch.
+###This is the first (unstable and dirty) rendition of Latch. *don't judge*
