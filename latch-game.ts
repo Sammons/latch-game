@@ -28,7 +28,10 @@ enum MessagesEnum {
   LATCH_FAILURE,
   UNLATCH_SUCCESS,
   DIE,
-  REPORT
+  REPORT,
+  MYLATCHSTATUS,
+  LATCHED,
+  UNLATCHED
 }
 
 class MessageFactory {
@@ -64,6 +67,12 @@ class LatchGameSocketHandler {
         sock.write(LatchGameCore.getReportFor(this.id));
         break;
       }
+      case MessagesEnum.MYLATCHSTATUS: {
+        sock.write(MessageFactory.CreateMessage(
+          LatchGameCore.isLatched(this.id) ? MessagesEnum.LATCHED : MessagesEnum.UNLATCHED
+        ))
+        break;
+      }
     }
     return false;
   }
@@ -95,6 +104,9 @@ namespace LatchGameCore {
   var interval: NodeJS.Timer;
   var intervalLength: number = 100;
   var maxScore = 1;
+  export function isLatched(id: Guid): boolean {
+    return latched.indexOf(id) >= 0;
+  }
   export function playerDisconnect() {
     if (numPlayers > 0) numPlayers--;
   }
@@ -178,9 +190,6 @@ class LatchGameServer {
   }
 }
 
-var l = new LatchGameServer();
-LatchGameCore.start();
-
 class Guid extends String {
   private value: string = "" ;
   constructor(str: string) {
@@ -201,4 +210,7 @@ class Guid extends String {
     return new Guid(uuid);
   }
 }
+
+var l = new LatchGameServer();
+LatchGameCore.start();
 

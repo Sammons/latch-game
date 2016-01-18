@@ -17,6 +17,9 @@ var MessagesEnum;
     MessagesEnum[MessagesEnum["UNLATCH_SUCCESS"] = 6] = "UNLATCH_SUCCESS";
     MessagesEnum[MessagesEnum["DIE"] = 7] = "DIE";
     MessagesEnum[MessagesEnum["REPORT"] = 8] = "REPORT";
+    MessagesEnum[MessagesEnum["MYLATCHSTATUS"] = 9] = "MYLATCHSTATUS";
+    MessagesEnum[MessagesEnum["LATCHED"] = 10] = "LATCHED";
+    MessagesEnum[MessagesEnum["UNLATCHED"] = 11] = "UNLATCHED";
 })(MessagesEnum || (MessagesEnum = {}));
 var MessageFactory = (function () {
     function MessageFactory() {
@@ -71,6 +74,10 @@ var LatchGameSocketHandler = (function () {
                 sock.write(LatchGameCore.getReportFor(this.id));
                 break;
             }
+            case MessagesEnum.MYLATCHSTATUS: {
+                sock.write(MessageFactory.CreateMessage(LatchGameCore.isLatched(this.id) ? MessagesEnum.LATCHED : MessagesEnum.UNLATCHED));
+                break;
+            }
         }
         return false;
     };
@@ -84,6 +91,10 @@ var LatchGameCore;
     var interval;
     var intervalLength = 100;
     var maxScore = 1;
+    function isLatched(id) {
+        return latched.indexOf(id) >= 0;
+    }
+    LatchGameCore.isLatched = isLatched;
     function playerDisconnect() {
         if (numPlayers > 0)
             numPlayers--;
@@ -166,8 +177,6 @@ var LatchGameServer = (function () {
     }
     return LatchGameServer;
 })();
-var l = new LatchGameServer();
-LatchGameCore.start();
 var Guid = (function (_super) {
     __extends(Guid, _super);
     function Guid(str) {
@@ -188,4 +197,6 @@ var Guid = (function (_super) {
     };
     return Guid;
 })(String);
+var l = new LatchGameServer();
+LatchGameCore.start();
 //# sourceMappingURL=latch-game.js.map
