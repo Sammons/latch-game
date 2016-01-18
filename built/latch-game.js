@@ -120,7 +120,7 @@ var LatchGameCore;
     }
     LatchGameCore.maxActiveLatches = maxActiveLatches;
     function latchSelf(id) {
-        if (latched.length > maxActiveLatches())
+        if (latched.length >= maxActiveLatches())
             return false;
         else {
             latched.push(id);

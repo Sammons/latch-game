@@ -1,4 +1,4 @@
-/// <reference path="vendor/node.d.ts" />
+/// <reference path="typings/node.d.ts" />
 import net = require('net');
 import events = require('events');
 import util = require('util');
@@ -13,10 +13,11 @@ interface IMessage {
 }
 
 interface IReportMessage {
+  m: number,
   score: number,
   playerId: string,
   scoreRatio: number,
-  timestamp: number
+  t: number
 };
 
 enum MessagesEnum {
@@ -130,7 +131,7 @@ namespace LatchGameCore {
   }
   
   export function latchSelf(id: Guid): boolean {
-    if (latched.length > maxActiveLatches()) return false;
+    if (latched.length >= maxActiveLatches()) return false;
     else {
       latched.push(id);
       return true;
@@ -213,4 +214,3 @@ class Guid extends String {
 
 var l = new LatchGameServer();
 LatchGameCore.start();
-
