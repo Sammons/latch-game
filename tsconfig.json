@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "outDir": "built/",
+        "sourceMap": true
+    },
+    "exclude": [
+        "node_modules",
+        "vendor",
+        "built"
+    ]
+}
