@@ -69,10 +69,12 @@ setInterval(() => {
         case MessagesEnum.LATCH_FAILURE: {
           console.log('LATCH_FAILURE');
           sendMessage(MessagesEnum.UNLATCH_EVERYONE);
+          break;
         }
         case MessagesEnum.UNLATCHED: {
           console.log('UNLATCHED');
           sendMessage(MessagesEnum.LATCH_SELF);
+          break;
         }
         case MessagesEnum.LATCHED: {
           console.log('LATCHED');
